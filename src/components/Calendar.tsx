@@ -7,9 +7,9 @@ import axios, { isCancel, AxiosError } from 'axios';
 import { v4 as UUID } from 'uuid';
 import moment from 'moment';
 
-import './Calender.css';
+import './Calendar.css';
 
-const storageKey = 'calander-events-state';
+const storageKey = 'calandar-events-state';
 
 export default function TaskApp() {
   const [selectedEvent, setSelectedEvent] = useState('');

@@ -1,15 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Calender from './components/Calender';
+import Calendar from './components/Calendar';
 import './App.css';
 
 function App() {
   return (
-    <div className="calender-app">
+    <div className="calendar-app">
       <h1>
-        Calender
+        Calendar
       </h1>
-      <Calender />
+      <Calendar />
     </div>
   );
 }
