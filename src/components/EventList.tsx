@@ -2,21 +2,27 @@ import { Event as EventType } from './types';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 
-export default function EventList({
-  events,
-  filterDate,
-  onChangeEvent,
-  onDeleteEvent,
-  onSelectEvent,
-  setFilterDate,
-}: {
+interface EventListProps {
   events: EventType[];
   filterDate: Date;
-  onChangeEvent: (event: EventType) => void;
   onDeleteEvent: (id: string) => void;
   onSelectEvent: (id: string) => void;
   setFilterDate: (date: Date) => void;
-}) {
+}
+
+interface EventProps {
+  event: EventType;
+  onDelete: (id: string) => void;
+  onSelect: (id: string) => void;
+}
+
+export default function EventList({
+  events,
+  filterDate,
+  onDeleteEvent,
+  onSelectEvent,
+  setFilterDate,
+}: EventListProps) {
   const filteredEvents = events?.filter(event => {
     // TODO: fix date filter
     // filterDate is complete date so 
@@ -53,7 +59,6 @@ export default function EventList({
           <li key={event.id}>
             <Event
               event={event}
-              onChange={onChangeEvent}
               onDelete={onDeleteEvent}
               onSelect={onSelectEvent}
             />
@@ -64,15 +69,8 @@ export default function EventList({
   );
 }
 
-function Event({ event, onDelete, onSelect }:
-  {
-    event: EventType;
-    onChange: (event: EventType) => void;
-    onDelete: (id: string) => void;
-    onSelect: (id: string) => void;
-  }
-) {
-  const taskContent = <div className='event'>
+function Event({ event, onDelete, onSelect }: EventProps) {
+  const eventContent = <div className='event'>
     {`${moment.unix(event.startDate).format('LT')}-${moment.unix(event.endDate).format('LT')}`}
     <div className='event__title'>{event.title}</div>
     <div className='event__desc'>{event.description}</div>
@@ -80,7 +78,7 @@ function Event({ event, onDelete, onSelect }:
 
   return (
     <div>
-      {taskContent}
+      {eventContent}
 
       {!event.thirdParty && <>
         <button onClick={() => onSelect(event.id)} className='events__btn-edit'>

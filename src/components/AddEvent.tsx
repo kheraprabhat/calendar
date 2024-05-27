@@ -1,21 +1,17 @@
 import { Event } from './types';
-import DatePicker from 'react-datepicker';
 import { v4 as UUID } from 'uuid';
 import * as Yup from 'yup';
-
-import "react-datepicker/dist/react-datepicker.css";
-
+import { DateTimeField } from './DateTimeField';
 import {
   Form,
   Field,
   withFormik,
   FormikProps,
-  FormikErrors,
-  useFormikContext,
-  useField,
   FormikBag
 } from 'formik';
 import moment from 'moment';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 interface AddEventFormProps {
   onAddEvent: (event: Event) => void;
@@ -24,38 +20,11 @@ interface AddEventFormProps {
   initialValues: Event;
 }
 
-interface Props {
-  name: string;
-  value: Date | null;
-  onChange: (value: Number) => void;
-  errors?: FormikErrors<string>;
-}
-
-const DateTimeField = ({ onChange, value, ...props }: Props) => {
-  const { setFieldValue } = useFormikContext();
-  const [field] = useField(props);
-
-  const filterPassedTime = (time: any) => { // TODO
-    const currentDate = moment();
-    const selectedDate = moment(time);
-
-    return currentDate < selectedDate;
-  };
-
-  return (
-    <DatePicker
-      showTimeSelect
-      timeIntervals={15}
-      selected={field.value && moment.unix(field.value).toDate()}
-      onChange={d => {
-        const date = moment(d).unix();
-        setFieldValue(field.name, date);
-      }}
-      filterTime={filterPassedTime}
-      dateFormat='MMMM d, yyyy h:mm aa'
-      {...props}
-    />
-  );
+interface AddEventProps {
+  onAddEvent: (event: Event) => void,
+  onEditEvent: (event: Event) => void,
+  resetEventForm: () => void,
+  event?: Event
 }
 
 const InnerForm = (props: AddEventFormProps & FormikProps<Event>) => {
@@ -133,14 +102,9 @@ export default function AddEvent({
   onAddEvent,
   onEditEvent,
   resetEventForm,
-  editEvent
-}: {
-  onAddEvent: (event: Event) => void,
-  onEditEvent: (event: Event) => void,
-  resetEventForm: () => void,
-  editEvent?: Event
-}) {
-  const initialValues: Event = editEvent ?? {
+  event
+}: AddEventProps) {
+  const initialValues: Event = event ?? {
     id: '',
     title: '',
     description: '',

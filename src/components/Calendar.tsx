@@ -11,7 +11,7 @@ import './Calendar.css';
 
 const storageKey = 'calandar-events-state';
 
-export default function TaskApp() {
+export default function CalendarApp() {
   const [selectedEvent, setSelectedEvent] = useState('');
 
   const initialState: State = {
@@ -62,7 +62,7 @@ export default function TaskApp() {
     });
   }, [state.filterDate]);
 
-  const editEvent = state.events?.find(event => event.id === selectedEvent);
+  const event = state.events?.find(event => event.id === selectedEvent);
 
   if (!state) {
     return <div>Loading...</div>;
@@ -71,15 +71,14 @@ export default function TaskApp() {
   return (
     <>
       <AddEvent
+        event={event}
         onAddEvent={handleAddEvent}
         onEditEvent={handleChangeEvent}
-        editEvent={editEvent}
         resetEventForm={() => setSelectedEvent('')}
       />
       <EventList
         events={state.events}
         filterDate={state.filterDate}
-        onChangeEvent={handleChangeEvent}
         onDeleteEvent={handleDeleteEvent}
         onSelectEvent={handleSelectEvent}
         setFilterDate={setFilterDate}
