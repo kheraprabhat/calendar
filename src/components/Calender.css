@@ -1,0 +1,48 @@
+.events__btn-del {
+  margin-left: 4px;
+  background-color: #d65950;
+}
+
+.events {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+.events__list {
+  margin-top: 8px;
+}
+
+.events-form label {
+  min-width: 100px;
+  vertical-align: top;
+}
+
+.events-form__field {
+  margin-bottom: 8px;
+}
+
+.events-form__error {
+  color: #d65950;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.events-form__submit {
+  margin-right: 4px;;
+}
+
+.event {
+  margin-top: 8px;
+}
+
+.event__title {
+  font-weight: bold;
+}
+
+.event__desc {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  font-style: italic;
+}
