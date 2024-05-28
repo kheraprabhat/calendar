@@ -1,14 +1,9 @@
 import { Event as EventType } from './types';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
-
-interface EventListProps {
-  events: EventType[];
-  filterDate: Date;
-  onDeleteEvent: (id: string) => void;
-  onSelectEvent: (id: string) => void;
-  setFilterDate: (date: Date) => void;
-}
+import { CalendarContext } from './providers/CalendarContext';
+import { useContext } from 'react';
+import { useMoonPhasesEvents } from './service/moonphases';
 
 interface EventProps {
   event: EventType;
@@ -16,14 +11,22 @@ interface EventProps {
   onSelect: (id: string) => void;
 }
 
-export default function EventList({
-  events,
-  filterDate,
-  onDeleteEvent,
-  onSelectEvent,
-  setFilterDate,
-}: EventListProps) {
-  const filteredEvents = events?.filter(event => {
+export default function EventList() {
+  const { state: { events, filterDate }, dispatch } = useContext(CalendarContext);
+
+  function onDeleteEvent(id: string) {
+    dispatch({ type: 'DELETE_EVENT', data: id });
+  }
+
+  function onSelectEvent(id: string) {
+    dispatch({ type: 'SELECT_EVENT', data: id });
+  }
+
+  const { data, isLoading } = useMoonPhasesEvents(moment(filterDate).year());
+
+  const allEvents = !isLoading && data ? [...events, ...data] : events;
+
+  const filteredEvents = allEvents?.filter(event => {
     // TODO: fix date filter
     // filterDate is complete date so 
     // filterDateMoment.isSame(startDateMoment, 'day') and
@@ -46,7 +49,7 @@ export default function EventList({
           placeholderText='Filter by date'
           selected={filterDate}
           onChange={(date) => {
-            date && setFilterDate(date)
+            date && dispatch({ type: 'FILTER_DATE', data: date });
           }}
           dateFormat={'MMMM d, yyyy'}
         />
