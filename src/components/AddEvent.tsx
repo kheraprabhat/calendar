@@ -97,7 +97,7 @@ export default function AddEvent() {
 
   const { dispatch, state: { selectedEvent, events } } = useContext(CalendarContext);
 
-  const initialValues: Event = {
+  let initialValues: Event = {
     id: '',
     title: '',
     description: '',
@@ -107,12 +107,7 @@ export default function AddEvent() {
 
   if (selectedEvent) {
     const event = events.find(e => e.id === selectedEvent);
-    return (<AddEventForm
-      onAddEvent={(event) => dispatch({ type: 'ADD_EVENT', data: event })}
-      onEditEvent={(event) => dispatch({ type: 'EDIT_EVENT', data: event })}
-      initialValues={event ?? initialValues}
-      resetEventForm={() => dispatch({ type: 'SELECT_EVENT', data: '' })}
-    />)
+    initialValues = event || initialValues;
   }
 
   return (<AddEventForm

@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import Calendar from './components/Calendar';
 import './App.css';
 import {

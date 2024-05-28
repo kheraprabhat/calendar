@@ -1,8 +1,13 @@
 import axios, { AxiosError, isCancel } from 'axios';
-import { MoonPhase, Event } from '../types';
+import { Event } from '../types';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { v4 as UUID } from 'uuid';
+
+export interface MoonPhase {
+  Date: string;
+  Phase: string;
+}
 
 export function useMoonPhasesEvents(year: number) {
   return useQuery({ queryKey: ['moon-phases', year], queryFn: () => fetchMoonPhasesEvents(year) });

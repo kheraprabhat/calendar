@@ -20,7 +20,7 @@ export function useCalendar() {
   return useContext(CalendarContext);
 }
 
-export function calendarReducer(state: State, action: Action): State { // TODO: Add type for action
+export function calendarReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'ADD_EVENT': {
       const event = {

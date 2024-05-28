@@ -1,8 +1,3 @@
-.events__btn-del {
-  margin-left: 4px;
-  background-color: #d65950;
-}
-
 .events {
   margin-top: 16px;
   padding: 16px;
@@ -14,9 +9,18 @@
   margin-top: 8px;
 }
 
+.events__btn-del {
+  margin-left: 4px;
+
+  border: #d65950 solid 1px;
+  border-radius: 4px;
+  background-color: #d65950;
+}
+
 .events-form label {
   min-width: 100px;
   vertical-align: top;
+  display: inline-block;
 }
 
 .events-form__field {

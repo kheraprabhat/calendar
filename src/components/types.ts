@@ -11,8 +11,3 @@ export interface Event {
   type?: 'moonPhase' | 'event';
   thirdParty?: boolean;
 }
-
-export interface MoonPhase {
-  Date: string;
-  Phase: string;
-}
