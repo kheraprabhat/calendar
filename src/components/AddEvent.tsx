@@ -12,19 +12,14 @@ import {
 import moment from 'moment';
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useContext } from 'react';
+import { CalendarContext } from './providers/CalendarContext';
 
 interface AddEventFormProps {
   onAddEvent: (event: Event) => void;
   onEditEvent: (event: Event) => void;
   resetEventForm: () => void;
   initialValues: Event;
-}
-
-interface AddEventProps {
-  onAddEvent: (event: Event) => void,
-  onEditEvent: (event: Event) => void,
-  resetEventForm: () => void,
-  event?: Event
 }
 
 const InnerForm = (props: AddEventFormProps & FormikProps<Event>) => {
@@ -98,23 +93,32 @@ const AddEventForm = withFormik<AddEventFormProps, Event>({
   enableReinitialize: true,
 })(InnerForm);
 
-export default function AddEvent({
-  onAddEvent,
-  onEditEvent,
-  resetEventForm,
-  event
-}: AddEventProps) {
-  const initialValues: Event = event ?? {
+export default function AddEvent() {
+
+  const { dispatch, state: { selectedEvent, events } } = useContext(CalendarContext);
+
+  const initialValues: Event = {
     id: '',
     title: '',
     description: '',
     startDate: moment().unix(),
     endDate: moment().unix(),
   };
+
+  if (selectedEvent) {
+    const event = events.find(e => e.id === selectedEvent);
+    return (<AddEventForm
+      onAddEvent={(event) => dispatch({ type: 'ADD_EVENT', data: event })}
+      onEditEvent={(event) => dispatch({ type: 'EDIT_EVENT', data: event })}
+      initialValues={event ?? initialValues}
+      resetEventForm={() => dispatch({ type: 'SELECT_EVENT', data: '' })}
+    />)
+  }
+
   return (<AddEventForm
-    onAddEvent={onAddEvent}
-    onEditEvent={onEditEvent}
+    onAddEvent={(event) => dispatch({ type: 'ADD_EVENT', data: event })}
+    onEditEvent={(event) => dispatch({ type: 'EDIT_EVENT', data: event })}
     initialValues={initialValues}
-    resetEventForm={resetEventForm}
+    resetEventForm={() => dispatch({ type: 'SELECT_EVENT', data: '' })}
   />)
 }
